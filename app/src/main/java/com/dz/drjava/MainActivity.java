@@ -1,6 +1,9 @@
 package com.dz.drjava;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
@@ -10,37 +13,39 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class MainActivity extends AppCompatActivity {
-    private Button showFirstBtn,showSecondBtn;
-    private ImageView firstImage,secondImage;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
+public class MainActivity extends AppCompatActivity {
+
+
+    private RecyclerView recyclerView;
+    private ImageAdapter imageAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        showFirstBtn = findViewById(R.id.showFirstBtn);
-        showSecondBtn = findViewById(R.id.showSecondBtn);
-        firstImage = findViewById(R.id.image1);
-        secondImage = findViewById(R.id.image2);
-
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
 
         Resources resources = getResources();
         TypedArray drawableIds = resources.obtainTypedArray(R.array.drawables);
 
-        showFirstBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firstImage.setImageDrawable(drawableIds.getDrawable(0));
+        ArrayList<Integer> drawableList = new ArrayList<>();
+        for (int i = 0; i < drawableIds.length(); i++) {
+            int resourceId = drawableIds.getResourceId(i, -1);
+            if (resourceId != -1) {
+                drawableList.add(resourceId);
             }
-        });
+        }
+        drawableIds.recycle();
 
-        showSecondBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                secondImage.setImageDrawable(drawableIds.getDrawable(1));
-            }
-        });
+        imageAdapter = new ImageAdapter(drawableList);
+        recyclerView.setAdapter(imageAdapter);
+
+
     }
 }
