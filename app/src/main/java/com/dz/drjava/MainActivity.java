@@ -20,15 +20,13 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
 
-    private RecyclerView recyclerView;
-    private ImageAdapter imageAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
 
         Resources resources = getResources();
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         }
         drawableIds.recycle();
 
-        imageAdapter = new ImageAdapter(drawableList);
+        ImageAdapter imageAdapter = new ImageAdapter(drawableList);
         recyclerView.setAdapter(imageAdapter);
 
 
